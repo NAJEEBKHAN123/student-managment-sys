@@ -1,13 +1,9 @@
-// import { collection, getDocs } from "firebase/firestore";
-// import { useEffect, useState } from "react";
-// import { db } from "../firebase";
+
 import StudentTable from "./StudentTable";
 
-// import StudentTable from './Component/StudentTable'
 
-function StudentList({student, setStudent}) {
- 
-  
+function StudentList({student, setStudent, getStudents }) {
+
   return (
     <>
       <h1>Students List</h1>

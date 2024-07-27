@@ -8,7 +8,6 @@ import { db } from './firebase';
 
 function App() {
   const [student, setStudent] = useState([]);
-
   const getStudents = async () => {
     const studentCollection = collection(db, "students");
     const studentSnapshot = await getDocs(studentCollection);
@@ -21,12 +20,11 @@ function App() {
   useEffect(() => {
     getStudents();
   }, []);
-
   return (
     <div className='app-container'>
       <h1 className='heading-title'>Student Managment System</h1>
       <StudentName getStudents={getStudents}/>
-      <StudentList student={student} setStudent={setStudent}/>
+      <StudentList student={student} setStudent={setStudent} getStudents={getStudents}/>
     </div>
   )
 }

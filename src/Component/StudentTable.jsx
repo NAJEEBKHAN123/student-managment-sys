@@ -8,14 +8,19 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import UpdateStudent from './UpdateStudent'
+import { useState } from "react";
 
 export default function StudentTable({ student, setStudent }) {
+  const [editDilogOpen, setEditDilogOpen] = useState(false)
+  const [currentStudent, setCurrentStudent] = useState(null)
   // updatedStudent
   const handleUpdateStudent = (studntId) => {
-    alert(studntId);
+    const studen =  student.find(s => s.id === studntId)
+    setCurrentStudent(studen)
+    setEditDilogOpen(true)
   };
   // DeleteStudent
   const handleDeleteStudent = async (studntId) => {
@@ -23,6 +28,33 @@ export default function StudentTable({ student, setStudent }) {
     await deleteDoc(studentDoc);
     setStudent(student.filter((studnt) => studnt.id !== studntId));
   };
+
+  // close update dilog 
+  function handleDilogClosed() {
+    setEditDilogOpen(false)
+    setCurrentStudent(null)
+  }
+
+   async function handleSaveStudent(){
+   const studentDoc =  doc(db, 'students', currentStudent.id)
+    await updateDoc(studentDoc,{
+     name: currentStudent.name,
+     age: currentStudent.age
+   })
+   setStudent(student.map((studen) => studen.id === currentStudent.id ? 
+   currentStudent : studen))
+   handleDilogClosed();
+  }
+  // handlechange dilog 
+  function handleChange(e){
+    const {name , value} = e.target
+    setCurrentStudent((prev) =>({
+      ...prev,
+      [name] : value
+    }))
+    console.log(e.target)
+
+  }
 
   return (
 
@@ -65,7 +97,13 @@ export default function StudentTable({ student, setStudent }) {
         </TableBody>
       </Table>
     </TableContainer>
-    <UpdateStudent/>
+    <UpdateStudent 
+    editDilogOpen={editDilogOpen} 
+    currentStudent={currentStudent} 
+    handleDilogClosed={handleDilogClosed} 
+    handleChange={handleChange}
+    handleSaveStudent = {handleSaveStudent}
+    />
     </>
   );
 }

@@ -1,25 +1,20 @@
-import * as React from 'react';
+
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 
-export default function updatedStudent() {
-  const [open, setOpen] = React.useState(true);
-
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+export default function updatedStudent({editDilogOpen , currentStudent, handleDilogClosed , handleChange,
+    handleSaveStudent ,
+}) {
+  
   return (
   
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={editDilogOpen}
+        // onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -31,8 +26,8 @@ export default function updatedStudent() {
           label='Student Name'
           type='text'
           fullWidth
-          value={''}
-        //   onChange={handleChanged}
+          value={currentStudent?.name || ''}
+          onChange={handleChange}
           />
           <TextField
             margin='dense'
@@ -40,16 +35,14 @@ export default function updatedStudent() {
             label='Student Age'
             type='text'
             fullWidth
-            value={''}
-          //   onChange={handleChanged}
+            value={currentStudent?.age || ''}
+            onChange={handleChange}
           />
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
-            Save
-          </Button>
+          <Button onClick={handleDilogClosed}>Cancel</Button>
+          <Button onClick={handleSaveStudent} autoFocus> Save </Button>
         </DialogActions>
       </Dialog>
     
