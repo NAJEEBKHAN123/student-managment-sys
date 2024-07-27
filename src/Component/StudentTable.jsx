@@ -10,6 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
+import UpdateStudent from './UpdateStudent'
 
 export default function StudentTable({ student, setStudent }) {
   // updatedStudent
@@ -24,6 +25,8 @@ export default function StudentTable({ student, setStudent }) {
   };
 
   return (
+
+    <>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -62,5 +65,7 @@ export default function StudentTable({ student, setStudent }) {
         </TableBody>
       </Table>
     </TableContainer>
+    <UpdateStudent/>
+    </>
   );
 }
